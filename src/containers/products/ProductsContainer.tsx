@@ -1,14 +1,14 @@
-import { DataProductsGroupByCate, Product } from "../../types/products.type";
-import { useGetCategoriesProduct, useGetProducts } from "../../queries/products..query";
+import { DataProductsGroupByCate, GetCategoriesApiResponse, Product } from "../../types/products.type";
+import { useGetCategoriesProduct, useGetProducts } from "../../queries/products.query";
 import { useEffect, useState } from "react";
 import GroupProductsByCate from "../../components/GroupProductsByCate";
 import { useDebounce } from "use-debounce";
 import { isIncludeInString } from "../../utils/helpers";
 import SkeletonProducts from "../../components/SkeletonProducts";
-import { SearchInput, SearchInputIcon } from "../../style/inputSearch";
+import { SearchInputIcon, SearchInputClear } from "../../style/inputSearch";
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
-import { SearchInputClear } from './../../style/inputSearch';
+import { InputField } from "../../style/inputField";
 
 export default function ProductsContainer() {
     const productsResponse = useGetProducts(100, 0);
@@ -44,26 +44,26 @@ export default function ProductsContainer() {
     }
     return (
         <>
-            <SearchInput style={{ width: "50%" }}>
-                <input placeholder="Search..." value={keywordSearchName} onChange={(e) => searchName(e.target.value)} />
+            <div style={{ width: "50%", position: "relative" }}>
+                <InputField placeholder="Search..." value={keywordSearchName} onChange={(e) => searchName(e.target.value)} />
                 <SearchInputIcon>
                     <SearchIcon />
                 </SearchInputIcon>
                 <SearchInputClear onClick={() => searchName("")} style={keywordSearchName.length !== 0 ? { opacity: 1 } : { opacity: 0 }}>
                     <CloseIcon />
                 </SearchInputClear>
-            </SearchInput>
+            </div>
             <div style={{ paddingTop: "15px" }}>
                 {productsResponse.status === "success" && !searching ? <>{listItem}</> : null}
             </div>
-            <div style={{paddingTop : "25px"}}>
-                {productsResponse.status === "loading" || searching ? <SkeletonProducts total={5}/> : null}
+            <div style={{ paddingTop: "25px" }}>
+                {productsResponse.status === "loading" || searching ? <SkeletonProducts total={5} /> : null}
             </div>
         </>
     )
 }
 
-function fnGroupProductsByCate(products: Product[], categories: string[]) {
+function fnGroupProductsByCate(products: Product[], categories: GetCategoriesApiResponse) {
     let groupData: DataProductsGroupByCate[] = [];
     for (let i = 0; i < categories.length; i++) {
         let cate = categories[i];

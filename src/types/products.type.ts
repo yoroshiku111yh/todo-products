@@ -20,4 +20,6 @@ export interface DataProductsGroupByCate {
     data : Product[]
 }
 
+export type  GetCategoriesApiResponse = string[];
+
 export type TypeStringNumber = string | number;

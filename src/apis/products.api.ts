@@ -1,4 +1,4 @@
-import { GetProductsApiResponse, TypeStringNumber } from "../types/products.type";
+import { GetCategoriesApiResponse, GetProductsApiResponse } from "../types/products.type";
 import http from "../utils/http";
 
 
@@ -14,7 +14,7 @@ export const getProducts = (limit: number, skip: number) => {
 }
 
 export const getCategoriesProduct = () => {
-    return http.get<string[]>("products/categories", {
+    return http.get<GetCategoriesApiResponse>("products/categories", {
         responseType: "json"
     })
 }
