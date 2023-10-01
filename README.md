@@ -4,6 +4,8 @@ Learn React-query, axios
 
 ### I have learned react-query and typescript a few days, and decided to try to done this test interview as best as I can
 
+### Demo :https://eloquent-alpaca-ccb6e2.netlify.app/
+
 ## Remake test interview of [cigroio.notion.site](https://cigroio.notion.site/Front-end-interview-project-6656e88c83634df6b63e854f06539b7e)
 
 ### Frameworks :
