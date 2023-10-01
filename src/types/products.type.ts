@@ -8,6 +8,7 @@ export interface Product {
     images: string[];
 };
 
+export type ProductUpdateValue = Omit<Product, "id">;
 export interface GetProductsApiResponse {
     products: Product[];
     total: number;

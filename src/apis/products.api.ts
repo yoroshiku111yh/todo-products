@@ -1,4 +1,4 @@
-import { GetCategoriesApiResponse, GetProductsApiResponse } from "../types/products.type";
+import { GetCategoriesApiResponse, GetProductsApiResponse, ProductUpdateValue } from "../types/products.type";
 import http from "../utils/http";
 
 
@@ -29,4 +29,8 @@ export const getProductsByCate = (cate: string, limit: number, skip: number) => 
         },
         responseType: "json"
     })
+}
+
+export const putProduct = (prodUpdateValue: ProductUpdateValue, id : number) => {
+    return http.put(`products/${id}`, prodUpdateValue)
 }

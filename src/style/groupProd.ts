@@ -17,7 +17,7 @@ export const GroupProductList = styled("ul")({
 })
 
 export const GroupProductListItem = styled("li")({
-    "list-style-type": "none",
+    listStyleType : "none",
     display: "block",
     margin: "15px 0px",
     padding: "10px",

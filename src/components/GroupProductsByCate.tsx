@@ -1,81 +1,47 @@
-import { useState } from "react";
-import { GroupProductHeader, GroupProductList, GroupProductListItem, ProductItemHeader, ProductItemSide, ProductItemSub, ProductItemThumb } from "../style/groupProd";
+import { GroupProductHeader, GroupProductList, GroupProductListItem } from "../style/groupProd";
 import { Product } from "../types/products.type";
-import { InputFieldStyleWhite } from "../style/inputField";
-import { Button, IconButton } from "@mui/material";
-import EditIcon from '@mui/icons-material/Edit';
-import CancelIcon from '@mui/icons-material/Cancel';
-import UpdateIcon from '@mui/icons-material/Update';
+import ProductItem, { TypePropsProductItem } from "./ProductItem";
+import { useState } from 'react';
 
-type dataProduct = Pick<Product, "title" | "price">;
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
-export default function GroupProductsByCate(props: { category: string, data: Product[] }) {
-    const { data, category } = props;
+type TypeGroupProductByCate = Pick<TypePropsProductItem, "onUpdate" | "isUpdating" | "isError"> & { category: string, data: Product[] };
+
+export default function GroupProductsByCate(props: TypeGroupProductByCate) {
+    const { data, category, onUpdate, isUpdating, isError } = props;
+    const [open, setOpen] = useState(data.length > 0 ? true : false);
+    const handleClick = () => {
+        if(data.length === 0) return false;
+        setOpen(!open);
+    };
 
     const listItem = data.map(item => (
         <GroupProductListItem key={item.id}>
-            <ProductItem data={item} />
+            <ProductItem isUpdating={isUpdating} isError={isError} data={item} onUpdate={onUpdate} />
         </GroupProductListItem>
     ))
     return (
-        <div>
-            <GroupProductHeader>{category}</GroupProductHeader>
-            <GroupProductList>{listItem}</GroupProductList>
-        </div>
-    )
-}
-
-function ProductItem(props: { data: Product }) {
-    const { data } = props;
-    const [showEditForm, setShowEditForm] = useState(false);
-    const [valueInput, setValueInput] = useState<dataProduct>({ title: data.title, price: data.price });
-    const toggleOpen = () => {
-        setValueInput({
-            title: data.title,
-            price: data.price
-        });
-        setShowEditForm(!showEditForm);
-    }
-
-    const onChangeData = function (value: dataProduct, fieldsToUpdate: Partial<dataProduct>) {
-        const obj: dataProduct = { ...value, ...fieldsToUpdate };
-        setValueInput(obj);
-    }
-
-    return (
         <>
-            <ProductItemThumb><img src={data.thumbnail} /></ProductItemThumb>
-            <ProductItemSide>
-                {showEditForm
-                    ?
-                    <>
-                        <div style={{ marginBottom: "5px" }}>
-                            <InputFieldStyleWhite value={valueInput.title} onChange={(e) => { onChangeData(valueInput, { title: e.target.value }) }} />
-                        </div>
-                        <div style={{ marginBottom: "5px" }}>
-                            <InputFieldStyleWhite value={valueInput.price} onChange={(e) => { onChangeData(valueInput, { price: Number(e.target.value) }) }} />
-                        </div>
-                        <div style={{ marginTop: "7px", textAlign: "right" }}>
-                            <Button variant="outlined" startIcon={<UpdateIcon />} style={{ marginRight: '7px' }}>
-                                Update
-                            </Button>
-                            <Button onClick={toggleOpen} variant="outlined" color="error" startIcon={<CancelIcon />}>
-                                Cancel
-                            </Button>
-                        </div>
-                    </>
-                    :
-                    <>
-                        <ProductItemHeader>{data.title}</ProductItemHeader>
-                        <ProductItemSub>${data.price}</ProductItemSub>
-                        <div style={{ marginTop: "15px", textAlign: "right" }}>
-                            <IconButton onClick={toggleOpen} color="primary" >
-                                <EditIcon />
-                            </IconButton>
-                        </div>
-                    </>
-                }
-            </ProductItemSide>
+            <ListItemButton style={{ padding: "3px 2px", marginBottom : "7px" }} onClick={handleClick}>
+                <GroupProductHeader>
+                    {category}
+                    <div style={{display : "inline-block", verticalAlign : "middle", marginLeft : "7px"}}>
+                        ( {data.length} )
+                    </div>
+                </GroupProductHeader>
+                {open
+                    ? <ExpandLess style={{ position: "absolute", top: 0, bottom: 0, margin: "auto", right: 0 }} />
+                    : <ExpandMore style={{ position: "absolute", top: 0, bottom: 0, margin: "auto", right: 0 }} />}
+            </ListItemButton>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                    <GroupProductList>{listItem}</GroupProductList>
+                </List>
+            </Collapse>
         </>
     )
 }

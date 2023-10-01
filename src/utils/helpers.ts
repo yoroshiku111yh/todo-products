@@ -5,3 +5,7 @@ export const isIncludeInString = (keyword: string, stringCheck: string) => {
     const searchWord = keyword.replace(/\s/g, "").toLowerCase();
     return checkStr.replace(/\s/g, "").length === 0 ? true : checkStr.includes(searchWord);
 }
+
+export function deepCloneObject<T>(obj: T) {
+    return JSON.parse(JSON.stringify(obj));
+}
