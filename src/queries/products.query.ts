@@ -1,6 +1,6 @@
 import { getCategoriesProduct, getProducts, getProductsByCate, putProduct } from "../apis/products.api";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Product, ProductUpdateValue } from "../types/products.type";
+import { ProductUpdateValue } from "../types/products.type";
 
 
 export function useGetProducts(limit: number, skip: number) {
