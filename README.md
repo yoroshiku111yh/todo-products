@@ -22,5 +22,5 @@ Learn React-query, axios
 - [x] To update the product name, you can use the setQueryData function of the query client without using the API. This will update the data locally, which is also known as an optimistic update.
 
 ### Learn next ? 
-- [] [react-virtuoso](https://virtuoso.dev/)
-- [] [Zustand](https://github.com/pmndrs/zustand)
+- [ ] [react-virtuoso](https://virtuoso.dev/)
+- [ ] [Zustand](https://github.com/pmndrs/zustand)
